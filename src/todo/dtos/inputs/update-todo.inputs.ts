@@ -1,15 +1,11 @@
-import {Field, InputType, Int} from "@nestjs/graphql";
+import {Field, ID, InputType, Int, PartialType} from "@nestjs/graphql";
+import {CreateTodoInputs} from "./create-todo.inputs";
 
 
 @InputType()
-export class UpdateTodoInputs{
+export class UpdateTodoInputs extends PartialType(CreateTodoInputs){
 
-    @Field( ()=> Int)
-    id: number;
+    @Field( ()=> ID)
+    id: string;
 
-    @Field( () => String, {description:' what needs to be done', nullable: true})
-    description?: string;
-
-    @Field( ()=> Boolean, {nullable: true})
-    done?: boolean;
 }

@@ -1,24 +1,22 @@
-<!--<mat-card>-->
-<!--  <mat-card-header>-->
-<!--    <mat-card-title>Tareas</mat-card-title>-->
-<!--  </mat-card-header>-->
-<!--  <mat-card-content>-->
-<!--    <mat-form-field>-->
-<!--      <input matInput placeholder="Nueva tarea newTask">-->
-<!--    </mat-form-field>-->
-<!--    <button mat-raised-button color="primary" (click)="addTask()">Agregar tarea</button>-->
-<!--    <mat-list>-->
-<!--      <mat-list-item *ngFor="let task of tasks; let i = index">-->
-<!--        <mat-checkbox></mat-checkbox>-->
-<!--        <span>{{ task }}</span>-->
+
+  <mat-card>
+  <mat-card-content>
+    <mat-form-field>
+      <input matInput placeholder="Nueva tarea">
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="addTask()">Agregar tarea</button>
+
+    <mat-list>
+      <mat-list-item *ngFor="let task of tasks; let i = index">
+        <mat-checkbox></mat-checkbox>
+        <span>{{ task }}</span>
 <!--        <button mat-icon-button color="accent" (click)="editTask(i)">-->
 <!--          <mat-icon>edit</mat-icon>-->
 <!--        </button>-->
 <!--        <button mat-icon-button color="warn" (click)="deleteTask(i)">-->
 <!--          <mat-icon>delete</mat-icon>-->
 <!--        </button>-->
-<!--      </mat-list-item>-->
-<!--    </mat-list>-->
-<!--  </mat-card-content>-->
-<!--</mat-card>-->
-<div>hol</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>

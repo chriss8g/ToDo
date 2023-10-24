@@ -1,0 +1,77 @@
+
+/* Estilos para el contenedor principal en modo oscuro */
+.app-main {
+  padding: 64px 16px 16px; /* Espacio en la parte superior para la barra de navegación */
+  background-color: #000; /* Fondo oscuro */
+  color: #fff; /* Texto blanco en modo oscuro */
+  min-height: 100vh;
+}
+
+/* Estilos para el botón "Nueva Tarea" a la derecha */
+.action-container {
+  text-align: right;
+}
+
+button[mat-raised-button] {
+  background-color: #007ACC; /* Botón de color azul en modo oscuro */
+  color: #fff;
+  margin-left: 8px;
+}
+
+/* Estilos para la lista de tareas en modo oscuro */
+.todo-list {
+  list-style: none;
+  padding: 0;
+  width: 100%; /* Ancho completo para la lista de tareas */
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #555; /* Línea de borde más oscura */
+  background-color: #444; /* Fondo oscuro para elementos de la lista */
+  color: #fff; /* Texto blanco en modo oscuro */
+}
+
+/* Estilos para la casilla de verificación (checkbox) en modo oscuro */
+.mat-checkbox {
+  margin-right: 16px;
+  transform: scale(1.5);
+  color: #007ACC; /* Color azul para la casilla de verificación en modo oscuro */
+}
+
+/* Estilos para las tareas completadas en modo oscuro */
+.completed-task {
+  text-decoration: line-through;
+  color: #888;
+}
+
+/* Estilos para el texto de la tarea en modo oscuro */
+.todo-text {
+  font-size: 16px;
+  cursor: pointer;
+  flex-grow: 1; /* El texto de la tarea ocupa todo el espacio restante */
+}
+
+/* Estilos para el botón de eliminación en modo oscuro */
+button[mat-icon-button] {
+  margin-left: 8px;
+  color: #ff5252; /* Color rojo para el botón de eliminación en modo oscuro */
+}
+.mat-toolbar {
+  position: sticky; /* Cambio de 'fixed' a 'sticky' */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #333; /* Fondo oscuro */
+  z-index: 100; /* Asegura que la barra de navegación esté por encima de otros elementos */
+}
+
+.app-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  display: block;
+}

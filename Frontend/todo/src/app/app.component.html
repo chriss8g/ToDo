@@ -1,22 +1,25 @@
+<mat-toolbar color="primary">
+  <span class="app-title">Lista de Tareas</span>
+</mat-toolbar>
 
-  <mat-card>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput placeholder="Nueva tarea">
+<div class="app-main">
+  <div class="action-container">
+    <button mat-raised-button color="primary" (click)="toggleCreateTaskForm()">Nueva Tarea</button>
+  </div>
+
+  <div *ngIf="showCreateTaskForm" class="create-task-form">
+    <mat-form-field class="full-width">
+      <input matInput placeholder="Nueva tarea" [(ngModel)]="newTaskText">
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addTask()">Agregar tarea</button>
+    <button mat-raised-button color="primary" (click)="createTask()">Crear</button>
+  </div>
 
-    <mat-list>
-      <mat-list-item *ngFor="let task of tasks; let i = index">
-        <mat-checkbox></mat-checkbox>
-        <span>{{ task }}</span>
-<!--        <button mat-icon-button color="accent" (click)="editTask(i)">-->
-<!--          <mat-icon>edit</mat-icon>-->
-<!--        </button>-->
-<!--        <button mat-icon-button color="warn" (click)="deleteTask(i)">-->
-<!--          <mat-icon>delete</mat-icon>-->
-<!--        </button>-->
-      </mat-list-item>
-    </mat-list>
-  </mat-card-content>
-</mat-card>
+
+  <ul class="todo-list">
+    <li class="todo-item" *ngFor="let todo of todos" [ngClass]="{'completed-task': todo.done}">
+      <mat-checkbox (change)="toggleTaskStatus(todo)" [checked]="todo.done"></mat-checkbox>
+      <span class="todo-text">{{ todo.description }}</span>
+      <button mat-icon-button color="warn" (click)="deleteTask(todo)"><mat-icon>delete</mat-icon></button>
+    </li>
+  </ul>
+</div>

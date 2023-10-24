@@ -11,6 +11,22 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 
+import { ApolloModule, APOLLO_OPTIONS } from 'apollo-angular';
+import { InMemoryCache } from '@apollo/client/core';
+import { HttpLink } from 'apollo-angular/http';
+import {HttpClientModule} from "@angular/common/http";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {FormsModule} from "@angular/forms";
+
+
+const uri = 'http://localhost:4000/graphql'; // Reemplaza con la URL de tu servidor NestJS
+
+export function createApollo(httpLink: HttpLink): any {
+  return {
+    link: httpLink.create({ uri }),
+    cache: new InMemoryCache(),
+  };
+}
 @NgModule({
   declarations: [
     AppComponent
@@ -27,11 +43,18 @@ import {MatButtonModule} from "@angular/material/button";
     MatIconModule,
     MatButtonModule,
 
-    // ApolloModule,
-    // HttpLinkModule,
-    // HttpClientModule
+    ApolloModule,
+    HttpClientModule,
+    MatToolbarModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: createApollo,
+      deps: [HttpLink],
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

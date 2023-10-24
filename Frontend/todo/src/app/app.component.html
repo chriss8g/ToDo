@@ -1,25 +1,60 @@
 <mat-toolbar color="primary">
   <span class="app-title">Lista de Tareas</span>
-</mat-toolbar>
 
-<div class="app-main">
-  <div class="action-container">
-    <button mat-raised-button color="primary" (click)="toggleCreateTaskForm()">Nueva Tarea</button>
-  </div>
-
-  <div *ngIf="showCreateTaskForm" class="create-task-form">
+  <div class="create-task-form">
     <mat-form-field class="full-width">
       <input matInput placeholder="Nueva tarea" [(ngModel)]="newTaskText">
     </mat-form-field>
     <button mat-raised-button color="primary" (click)="createTask()">Crear</button>
   </div>
+</mat-toolbar>
 
+<div class="app-main">
 
-  <ul class="todo-list">
-    <li class="todo-item" *ngFor="let todo of todos" [ngClass]="{'completed-task': todo.done}">
-      <mat-checkbox (change)="toggleTaskStatus(todo)" [checked]="todo.done"></mat-checkbox>
-      <span class="todo-text">{{ todo.description }}</span>
-      <button mat-icon-button color="warn" (click)="deleteTask(todo)"><mat-icon>delete</mat-icon></button>
-    </li>
-  </ul>
+  <div class="task-columns">
+    <!-- Columna To Do -->
+    <div class="task-column">
+      <h2 class="column-title">To Do</h2>
+      <ul class="todo-list">
+        <li class="todo-item" *ngFor="let todo of todos">
+          <span class="todo-text">{{ todo.description }}</span>
+          <div>
+                <button mat-icon-button color="warn" (click)="deleteTask(todo)"><mat-icon>delete</mat-icon></button>
+                <button mat-icon-button (click)="moveTask(todo, 'left')" *ngIf="todo.status > 0"><mat-icon>arrow_back</mat-icon></button>
+                <button mat-icon-button (click)="moveTask(todo, 'right')" *ngIf="todo.status < 2"><mat-icon>arrow_forward</mat-icon></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Columna Doing -->
+    <div class="task-column">
+      <h2 class="column-title">Doing</h2>
+      <ul class="todo-list">
+        <li class="todo-item" *ngFor="let todo of doing" [ngClass]="{'completed-task': todo.status === 2}">
+
+          <span class="todo-text">{{ todo.description }}</span>
+          <div>
+              <button mat-icon-button (click)="moveTask(todo, 'left')" *ngIf="todo.status > 0"><mat-icon>arrow_back</mat-icon></button>
+              <button mat-icon-button color="warn" (click)="deleteTask(todo)"><mat-icon>delete</mat-icon></button>
+              <button mat-icon-button (click)="moveTask(todo, 'right')" *ngIf="todo.status < 2"><mat-icon>arrow_forward</mat-icon></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Columna Done -->
+    <div class="task-column">
+      <h2 class="column-title">Done</h2>
+      <ul class="todo-list">
+        <li class="todo-item" *ngFor="let todo of done" [ngClass]="{'completed-task': todo.status === 2}">
+          <span class="todo-text">{{ todo.description }}</span>
+          <div>
+                  <button mat-icon-button (click)="moveTask(todo, 'left')" *ngIf="todo.status === 2"><mat-icon>arrow_back</mat-icon></button>
+                  <button mat-icon-button color="warn" (click)="deleteTask(todo)"><mat-icon>delete</mat-icon></button>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>

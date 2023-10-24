@@ -1,8 +1,8 @@
 import { Component, OnInit} from '@angular/core';
 import { Apollo } from 'apollo-angular';
-import {CREATE_TODO, GET_TODOS, REMOVE_TODO, UPDATE_TODO} from "./todo-queries";
+import {CREATE_TODO, GET_DOING, GET_DONE, GET_TODOS, REMOVE_TODO, UPDATE_TODO} from "./todo-queries";
 
-import {Todo, ToDoData} from "./todoInterfaces";
+import {Todo, ToDoData, ToDoData0, ToDoData1, ToDoData2} from "./todoInterfaces";
 
 @Component({
   selector: 'app-root',
@@ -11,7 +11,8 @@ import {Todo, ToDoData} from "./todoInterfaces";
 })
 export class AppComponent implements OnInit {
   todos: Todo[] = []; // Aquí debes definir el tipo de datos adecuado para tus tareas
-  showCreateTaskForm: boolean = false;
+  doing: Todo[] = [];
+  done: Todo[] = [];
   newTaskText: string = "";
 
 
@@ -21,15 +22,34 @@ export class AppComponent implements OnInit {
     this.update();
   }
 
-  update(): void{
+  update(): void {
     this.apollo
-      .watchQuery<ToDoData>({
+      .watchQuery<ToDoData0>({
         query: GET_TODOS,
+        fetchPolicy: 'network-only' // Agrega esta línea
       })
       .valueChanges.subscribe(({ data }) => {
-      this.todos = data.todos;
-      console.log(this.todos);
-      console.log(data.todos);
+      this.todos = data.todos0;
+    });
+
+
+    this.apollo
+      .watchQuery<ToDoData1>({
+        query: GET_DOING,
+        fetchPolicy: 'network-only' // Agrega esta línea
+      })
+      .valueChanges.subscribe(({ data }) => {
+      this.doing = data.todos1;
+    });
+
+
+    this.apollo
+      .watchQuery<ToDoData2>({
+        query: GET_DONE,
+        fetchPolicy: 'network-only' // Agrega esta línea
+      })
+      .valueChanges.subscribe(({ data }) => {
+      this.done = data.todos2;
     });
   }
 
@@ -41,40 +61,8 @@ export class AppComponent implements OnInit {
           removeTodo: todo.id
         }
       }).subscribe(({ data }) => {
-        // this.apollo
-        //   .query<ToDoData>({
-        //       query: GET_TODOS
-        //   })
-        //   .subscribe(({ data }) => {
-        //     this.todos = data.todos;
-        //   });
+        this.update();
       });
-  }
-
-
-  toggleTaskStatus(todo: Todo) {
-    this.apollo.mutate({
-      mutation: UPDATE_TODO,
-      variables: {
-        updateTodoInputs:{
-          id: todo.id,
-          done: !todo.done
-        }
-      }
-    }).subscribe(({ data }) => {
-      // this.apollo
-      //   .query<ToDoData>({
-      //       query: GET_TODOS
-      //   })
-      //   .subscribe(({ data }) => {
-      //     this.todos = data.todos;
-      //   });
-    });
-  }
-
-  toggleCreateTaskForm() {
-    this.showCreateTaskForm = !this.showCreateTaskForm;
-    this.newTaskText = ''; // Restablecer el campo de texto al mostrar el formulario
   }
 
   createTask() {
@@ -87,10 +75,31 @@ export class AppComponent implements OnInit {
                 description: this.newTaskText.trim()
               }
             }
-          }).subscribe(({ data }) => {});
+          }).subscribe(({ data }) => {
+            this.update();
+          });
     }
-
-    this.update();
   }
+
+  moveTask(todo: Todo, left: string) {
+    let i = 0;
+    if(left == "left")
+      i = -1;
+    else
+      i = 1;
+
+    this.apollo.mutate({
+      mutation: UPDATE_TODO,
+      variables: {
+        updateTodoInputs:{
+          id: todo.id,
+          status: todo.status+i
+        }
+      }
+    }).subscribe(({ data }) => {
+      this.update();
+    });
+  }
+
 }
 
